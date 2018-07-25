@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import EditMusic from './EditMusic'
+import EditMusic from './EditMusic';
+import ShareMS from './ShareMS'
 class Content2 extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +27,17 @@ class Content2 extends Component {
             />);
     }
 }
+
+isShowForm2 = () => {
+  if(this.props.editUserStatus7 === true)
+  {
+      return (<ShareMS
+        getUserinfoApp7={(info) => {this.props.getUserinfoApp7(info)}}
+          UserEditObject7={this.props.UserEditObject7} 
+          changeEditUserStatus7={() => {this.props.changeEditUserStatus7()}}
+          />);
+  }
+}
   ClickButondelete = (idUser) => {
     this.props.ClickButondelete(idUser);
   }
@@ -34,6 +46,11 @@ class Content2 extends Component {
     this.props.changeEditUserStatus();
 }
 
+
+ClickEditFunction2 = () => {
+  this.props.TEST7();
+  this.props.changeEditUserStatus7();
+}
 
     render() {
         return (
@@ -47,11 +64,14 @@ class Content2 extends Component {
                       <div className="project-text w-100 my-auto text-center text-lg-left">
                         <h3 className="text-white">{this.props.sst}</h3><h5 className="text-white">{this.props.title}</h5>
                         <p className="mb-0 text-white-50">{this.props.content}</p>
-                        <div className="form-group">
-                          <input type="button" onClick={(idUser) => this.ClickButondelete(this.props.id)} className="btn btn-block btn-warning" value="Delete Music"/>
-                          <input type="button" onClick={() => {this.ClickEditFunction()}}   className="btn btn-block btn-info" value="Edit Music"/>
+                        <div className="btn-group">
+                          <input type="button" onClick={(idUser) => this.ClickButondelete(this.props.id)} className="btn btn-outline-warning" value="Delete Music"/>
+                          <input type="button" onClick={() => {this.ClickEditFunction()}}   className="btn btn-outline-info" value="Edit Music"/>
+                          <input type="button" onClick={() => {this.ClickEditFunction2()}}   className="btn btn-outline-secondary" value="Share"/>
                         </div>
                         {this.isShowForm()}
+
+                        {this.isShowForm2()}
                         <hr className="d-none d-lg-block mb-0 ml-0" />
                       </div>
                     </div>

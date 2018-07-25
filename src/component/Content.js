@@ -9,9 +9,14 @@ class Content extends Component {
     mapingdatauser = () => this.props.dataUserprop.map((value,key) => (
         <Content2
         getUserinfoApp2 = {(info) => this.props.getUserinfoApp(info)}
+        getUserinfoApp7 = {(info) => this.props.getUserinfoApp7(info)}
+
         changeEditUserStatus={() => this.props.changeEditUserStatus()}
-        ClickButondelete={(idUser) => this.ClickButondelete(idUser)}
+        changeEditUserStatus7={() => this.props.changeEditUserStatus7()}
+
+         ClickButondelete={(idUser) => this.ClickButondelete(idUser)}
          TEST2={(user) => this.props.TEST(value)}
+         TEST7={(user) => this.props.TEST7(value)}
          id={value.id}
          key={key}
          sst={key}
@@ -20,7 +25,10 @@ class Content extends Component {
          link={value.link}
 
          editUserStatus={this.props.editUserStatus} 
-         UserEditObject={this.props.UserEditObject}  
+         editUserStatus7={this.props.editUserStatus7} 
+
+         UserEditObject={this.props.UserEditObject} 
+         UserEditObject7={this.props.UserEditObject7}   
         />
     ))
     render() {

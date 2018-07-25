@@ -8,6 +8,7 @@ import Footer from './component/Footer';
 import Datamusic from './component/DATA.json';
 import {connect} from 'react-redux';
 import AlertInfo from './component/AlertInfo';
+import LoadingScreen from 'react-loading-screen';
 const uuidv1 = require('uuid/v1');
 //1
 class App extends Component {
@@ -16,8 +17,11 @@ class App extends Component {
     this.state = {
       data:[],
       searchText:'',
+      loading: true,
       editUserStatus : false,
-      UserEditObject : {}
+      editUserStatus7 : false,
+      UserEditObject : {},
+      UserEditObject7 : {},
     }
   }
  //2
@@ -33,6 +37,13 @@ class App extends Component {
     });
     this.props.AlertOn("bạn đang tiến hành sửa bài hát", "success");
   }
+
+  changeEditUserStatus7 = () => {
+    this.setState({
+      editUserStatus7 : !this.state.editUserStatus7
+    });
+    this.props.AlertOn("Hãy dán LINK vừa chia sẻ hoặc copy lại link", "success");
+  }
   //4
   EditFuction = (user) => {
     console.log("Đã kết nối rất là okey");
@@ -40,10 +51,32 @@ class App extends Component {
       UserEditObject:user
     });
     
+  
+
+  }
+
+  EditFuction7 = (user) => {
+    console.log("Đã kết nối rất là okey");
+    this.setState({
+      UserEditObject7:user
+    });
+    
+  
 
   }
 //5
   getUserInfo = (info) => {
+    this.state.data.forEach((value,key) => {
+      if(value.id === info.id)
+      {
+        value.title = info.title;
+        value.content = info.content;
+        value.link = info.link;
+      }
+    })
+  }
+
+  getUserInfo7 = (info) => {
     this.state.data.forEach((value,key) => {
       if(value.id === info.id)
       {
@@ -95,8 +128,16 @@ class App extends Component {
       
     }
   }
+  componentDidMount () {
+    // fake promise
+    setTimeout(() =>
+      this.setState({ loading: false })
+    , 8500)
+  }
   //9
   render() {
+    const { loading } = this.state
+
     var ketqua = [];
     this.state.data.forEach((item) =>{
       if(item.title.indexOf(this.state.searchText) !== -1){
@@ -111,7 +152,8 @@ class App extends Component {
         )
       }
     });
-    return (
+    return ( 
+      <LoadingScreen  loading={loading}  bgColor='#272929' spinnerColor='#272929' textColor='#676767' logoSrc='http://a9.vietbao.vn/images/vn999/150/2017/03/20170318-loat-anh-dong-hinh-hoc-gay-thoi-mien-thach-thuc-con-nguoi-nhat-2.jpg' text='Welcome to MUSICNATIVE'>
       <div>
       <AlertInfo/>
           <Navlogo/>
@@ -122,21 +164,29 @@ class App extends Component {
 
                   />
                       <Content
-                         getUserinfoApp = {(info) => this.getUserInfo(info)}
+                        getUserinfoApp = {(info) => this.getUserInfo(info)}
+                        getUserinfoApp7 = {(info) => this.getUserInfo7(info)}
+
                         ClickButondelete={(idUser) => {this.ClickButondelete(idUser)}}
                         TEST={(user) => this.EditFuction(user)}
+                        TEST7={(user) => this.EditFuction7(user)}
                         dataUserprop={ketqua}
+
                         changeEditUserStatus={() => {this.changeEditUserStatus()}}
+                        changeEditUserStatus7={() => {this.changeEditUserStatus7()}}
+
                         editUserStatus={this.state.editUserStatus} 
-                        UserEditObject={this.state.UserEditObject}  
+                        editUserStatus7={this.state.editUserStatus7} 
+
+                        UserEditObject7={this.state.UserEditObject7}
+                        UserEditObject={this.state.UserEditObject}    
                       />
                           <UpMusic Getnewmusicdata={(title,content,link) => this.Getnewmusicdata(title,content,link)}
                                   
                           />
                               <Footer/>
-
       </div>
-
+         </LoadingScreen>
     );
   }
 }
